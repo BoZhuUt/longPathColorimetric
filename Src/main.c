@@ -85,7 +85,7 @@ char adc_arry[10];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	//SCB->VTOR = FLASH_BASE | 0x05000;				//设置APP启动地址
+	SCB->VTOR = FLASH_BASE | 0x05000;				//设置APP启动地址
 	int adc_result,i,j;
 	 float adc_ave=0;
   /* USER CODE END 1 */
@@ -118,11 +118,12 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
+	PowerOn_ReadModbusReg();
   LTC2630ISC6_init();
 	LL_TIM_TIM7_ENABLE();
 
   //PowerOn_ReadModbusReg();
-  eMBInit(MB_RTU,10,0,9600,0);
+  eMBInit(MB_RTU,45,0,9600,MB_PAR_EVEN);
 
 	/*Enable Modbus protocol stack*/
 	eMBEnable();
@@ -131,12 +132,6 @@ int main(void)
 	//RS485_SEND_EN();
 	configPGA113(ch0,1);
 	//4~20mA
- ph_orp_param.ct365=3000;
- ph_orp_param.cs365=0;
- ph_orp_param.cs410=1000;
- ph_orp_param.cs470=0;
- ph_orp_param.s365Gain=2;
- ph_orp_param.s470Gain=0;
 		write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,3000);
 		//AD5410_IOUT(8,16);
   /* USER CODE END 2 */
@@ -150,16 +145,22 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  eMBPoll();
+		if(ph_orp_param.startNum==1)
+		{
+			ph_orp_param.startNum=0;
+			StoreModbusRegs();
+		}
 		if(MEASURE_FLAG>3)
 		{
 			LL_USART_Disable(USART1);
+			configPGA113(ch0,ph_orp_param.t365Gain);
 			Open_ADC(ADC1);
-			ph_orp_param.s365=getAD_result();
+			ph_orp_param.dark=getAD_result();
 			turn_on_led_d10();
 			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,ph_orp_param.ct365);
 			delay_ms(50);
 			Open_ADC(ADC1);
-			ph_orp_param.t365=getAD_result()-ph_orp_param.s365;
+			ph_orp_param.t365=getAD_result()-ph_orp_param.dark;
 			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
 			MEASURE_FLAG=0;
 			LL_USART_Enable(USART1);
