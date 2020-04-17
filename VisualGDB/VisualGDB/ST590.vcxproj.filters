@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{50adb933-959d-45c7-814a-2856f823d9a7}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{86ad5f77-2da9-4f24-9bc1-d90aeb77abd4}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{3264f608-5be8-4382-967e-7490ff87290f}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source files\Application">
+      <UniqueIdentifier>{e2f26f99-b70a-4772-87db-947219195a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Application\MDK-ARM">
+      <UniqueIdentifier>{f0ec3b94-fcf7-4736-84f9-b574c0d0fe94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Application\User">
+      <UniqueIdentifier>{623bedc7-cf41-4970-9929-9d7349b4fb0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Drivers">
+      <UniqueIdentifier>{8cf7dd99-fd0f-47e8-81db-ce149b9e019f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Drivers\CMSIS">
+      <UniqueIdentifier>{8542de27-c792-4f03-8b2f-64da6b766af6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Drivers\STM32L4xx_HAL_Driver">
+      <UniqueIdentifier>{32875697-f3e1-4ce6-82b4-078130f163ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\User">
+      <UniqueIdentifier>{7a9a1e06-7ea4-4f8a-8454-a165f03fddad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Modbus">
+      <UniqueIdentifier>{3f530f72-e8ad-44b6-b2ac-7aa442a6e680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\::CMSIS">
+      <UniqueIdentifier>{60fd989c-4af7-4ebe-a985-260eec743d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Device-specific files">
+      <UniqueIdentifier>{999fee43-d11e-4dc7-877e-a3a052b66e98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Application">
+      <UniqueIdentifier>{c0cf42e6-51c0-486d-88ce-4d34652e6000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Application\MDK-ARM">
+      <UniqueIdentifier>{06fec14e-a0a1-4c67-b261-8e929635269f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Application\User">
+      <UniqueIdentifier>{f9ab84ef-53f0-4196-a494-72677cbf443b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Drivers">
+      <UniqueIdentifier>{42f29caa-a416-4083-9dd3-5193d192c053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Drivers\CMSIS">
+      <UniqueIdentifier>{7fab24de-b16f-43f4-8b3f-bc4860224b56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Drivers\STM32L4xx_HAL_Driver">
+      <UniqueIdentifier>{35a2fa27-631a-484a-97ff-54913c8f2174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\User">
+      <UniqueIdentifier>{e8c14637-a364-4e0c-bbef-5a1e0b4eb0e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Modbus">
+      <UniqueIdentifier>{54f5b3f4-0f64-4ad7-95a9-bf973c42b1f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\::CMSIS">
+      <UniqueIdentifier>{2f0ad83e-f202-4227-b7e6-5d318fb47319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Device-specific files">
+      <UniqueIdentifier>{1e1f862e-a834-4d47-8ed9-811e03292741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualGDB settings">
+      <UniqueIdentifier>{64e8dc40-9bf3-474f-b1d2-1866eaa86a52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\main.c">
+      <Filter>Source files\Application\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\gpio.c">
+      <Filter>Source files\Application\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\adc.c">
+      <Filter>Source files\Application\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\stm32l4xx_it.c">
+      <Filter>Source files\Application\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\system_stm32l4xx.c">
+      <Filter>Source files\Drivers\CMSIS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_rcc.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_usart.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_tim.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_utils.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_exti.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_gpio.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_adc.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_dma.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_pwr.c">
+      <Filter>Source files\Drivers\STM32L4xx_HAL_Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\usart\usart_user.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\timer\tim_user.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\LTC2630ISC6\LTC2630ISC6.C">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\delay\delay.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\ADA2200\ADA2200.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\PGA113\PGA113.C">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\DAC5410\DAC5410.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\APP\app.c">
+      <Filter>Source files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mb.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbfunccoils.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbfuncdisc.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbfuncholding.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbfuncinput.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbfuncother.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\functions\mbutils.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\port\embreg.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\port\portevent.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\port\portserial.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\port\porttimer.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\rtu\mbcrc.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\MODBUS\rtu\mbrtu.c">
+      <Filter>Source files\Modbus</Filter>
+    </ClCompile>
+    <None Include="mcu.props">
+      <Filter>Source files\Device-specific files</Filter>
+    </None>
+    <ClInclude Include="$(BSP_ROOT)\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h">
+      <Filter>Header files\Device-specific files</Filter>
+    </ClInclude>
+    <None Include="ST590-Debug.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="ST590-Release.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="MCU.xml">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <ClInclude Include="RTE/RTE_Components.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\MDK-ARM\startup_stm32l431xx.s">
+      <Filter>Source files\Application\User</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

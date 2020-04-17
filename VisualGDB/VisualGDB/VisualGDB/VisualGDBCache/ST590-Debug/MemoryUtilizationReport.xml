@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<MemoryUtilizationReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Memories>
+    <MemoryUtilization>
+      <MemoryName>IROM1</MemoryName>
+      <Used>10420</Used>
+      <Total>131072</Total>
+    </MemoryUtilization>
+    <MemoryUtilization>
+      <MemoryName>IRAM1</MemoryName>
+      <Used>1640</Used>
+      <Total>49152</Total>
+    </MemoryUtilization>
+    <MemoryUtilization>
+      <MemoryName>IRAM2</MemoryName>
+      <Used>0</Used>
+      <Total>16384</Total>
+    </MemoryUtilization>
+  </Memories>
+</MemoryUtilizationReport>
