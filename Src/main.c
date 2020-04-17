@@ -42,7 +42,7 @@ SYS_STATUS_T system_status;
 MEASURE_SETTINGS_T measure_settings;
 PH_ORP_PARAM_T ph_orp_param;
 COMM_SETTINGS_T  comm_settings;
-PH_ORP_PARAM_T  pH_ORP_Param;
+//PH_ORP_PARAM_T  pH_ORP_Param;
 CALIB_SETTINGS_T calib_settings;
 FILTER_SETTINGS_T filter_settings;
 uint8_t flag = 0,flag1 = 0;

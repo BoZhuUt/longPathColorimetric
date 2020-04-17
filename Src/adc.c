@@ -145,7 +145,7 @@ uint16_t Get_ADCVal(ADC_TypeDef *ADCx)
 	return adc_rst;
 }
 extern uint16_t adc_rst_arry_test[10];
-int get_ADC_RST()
+int get_ADC_RST(void)
 {
 	int adc_rst=0;
 //	uint16 i =0;

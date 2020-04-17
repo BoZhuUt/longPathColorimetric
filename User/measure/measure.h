@@ -16,15 +16,15 @@
 
 
 
-void turn_on_led_d7();
-void turn_on_led_d8();
-void turn_on_led_d9();
-void turn_on_led_d10();
-void turn_off_led();
-void pd1_adc();
-void pd2_adc();
-void pd3_adc();
-float getAD_result();
+void turn_on_led_d7(void);
+void turn_on_led_d8(void);
+void turn_on_led_d9(void);
+void turn_on_led_d10(void);
+void turn_off_led(void);
+void pd1_adc(void);
+void pd2_adc(void);
+void pd3_adc(void);
+float getAD_result(void);
 float channel(u8 meaChannel);
 
 #endif

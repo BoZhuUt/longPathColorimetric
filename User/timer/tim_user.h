@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __tim_H
-#define __tim_H
+#ifndef __tim_user_H
+#define __tim_user_H
 #ifdef __cplusplus
  extern "C" {
 #endif

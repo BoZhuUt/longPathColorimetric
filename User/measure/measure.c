@@ -8,48 +8,48 @@ float s470dRaw;
 float s470dRawPrev = -1.0;
 uint8_t channnel_select_flag;
 /*turnon led365*/
-void turn_on_led_d7()
+void turn_on_led_d7(void)
 {
 	LED_SWITCH_A0_LOW();
 	LED_SWITCH_A1_LOW();
 }
-void turn_on_led_d8()
+void turn_on_led_d8(void)
 {
 	LED_SWITCH_A0_HIGH();
 	LED_SWITCH_A1_LOW();
 }
-void turn_on_led_d9()
+void turn_on_led_d9(void)
 {
 	LED_SWITCH_A0_LOW();
 	LED_SWITCH_A1_HIGH();
 }
 /*turnon led405*/
-void turn_on_led_d10()
+void turn_on_led_d10(void)
 {
 	LED_SWITCH_A0_HIGH();
 	LED_SWITCH_A1_HIGH();
 }
 /*turnoff led*/
-void turn_off_led()
+void turn_off_led(void)
 {
 	LED_SWITCH_A0_LOW();
 	LED_SWITCH_A1_LOW();
 }
 /**/
-void pd1_adc()
+void pd1_adc(void)
 {
 }
 /**/
-void pd2_adc()
+void pd2_adc(void)
 {
 }
 /**/
-void pd3_adc()
+void pd3_adc(void)
 {
 }
 #define aveNum 20
 float adcBuffer;
-float getAD_result()
+float getAD_result(void)
 {
 		u16 ad_arry[4];
 	  u16 i,j,ad_temp;

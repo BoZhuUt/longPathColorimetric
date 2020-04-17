@@ -37,7 +37,7 @@
 void MX_TIM7_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void LL_TIM_TIM7_ENABLE();
+void LL_TIM_TIM7_ENABLE(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

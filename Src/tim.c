@@ -47,7 +47,7 @@ void MX_TIM7_Init(void)
 }
 
 /* USER CODE BEGIN 1 */
-void LL_TIM_TIM7_ENABLE()
+void LL_TIM_TIM7_ENABLE(void)
 {
 LL_TIM_EnableIT_UPDATE(TIM7);
 

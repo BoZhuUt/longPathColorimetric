@@ -12,11 +12,11 @@ typedef struct
 REG_STORE_TypeDef RegsStoreInfArr[REG_GROUP_NUM] =	//存入待存储寄存器的首地址,Flash地址和寄存器个数
 {
 	{&system_status		,SYS_STATUS_SADDR	,SYSREG_NREGS	},
-	{&comm_settings		,COM_SET_SADDR		,COMSREG_NREGS},	
-	{&measure_settings,MEASURE_SET_SADDR,MSREG_NREGS	},
-	{&calib_settings	,CAL_SET_SADDR		,CALSREG_NREGS},
+	{&comm_settings		,COM_SET_SADDR		,COMSREG_NREGS	},	
+	{&measure_settings	,MEASURE_SET_SADDR	,MSREG_NREGS	},
+	{&calib_settings	,CAL_SET_SADDR		,CALSREG_NREGS	},
 	{&filter_settings	,FILTER_SET_SADDR	,FSREG_NREGS	},
-	{&pH_ORP_Param				,DO_PARA_SADDR		,PHREG_NREGS			}		
+	{&ph_orp_param		,DO_PARA_SADDR		,PHREG_NREGS	}		
 };
 
 /**
@@ -30,15 +30,18 @@ HAL_StatusTypeDef STMFLASH_Erase(uint32_t e_addr)
 	FLASH_EraseInitTypeDef pEraseInit;
 	HAL_StatusTypeDef status = HAL_OK;
 	
-	HAL_FLASH_Unlock();					
+//	HAL_FLASH_Unlock();					
+	
+		/* Clear OPTVERR bit set on virgin samples */
+  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_OPTVERR); //This statement is very important, otherwise the first erasure is invalid
 	
 	pEraseInit.Banks = FLASH_BANK_1;	//擦除Bank1
 	pEraseInit.NbPages = 1;						//擦除扇区的个数
-	pEraseInit.Page = REG_STORAGE_OFFSET/PAGE_SIZE;//擦除Page8
+	pEraseInit.Page = REG_STORAGE_OFFSET / PAGE_SIZE;//擦除Page8
 	pEraseInit.TypeErase = FLASH_TYPEERASE_PAGES;//擦除类型Page
 	status = HAL_FLASHEx_Erase(&pEraseInit, &PageError);
 	
-	HAL_FLASH_Lock();
+//	HAL_FLASH_Lock();
 	
 	return status;
 }
@@ -53,17 +56,17 @@ static HAL_StatusTypeDef STMFLASH_Write(void *pdata,uint32_t addr,uint8_t nbyte)
 {
 	HAL_StatusTypeDef status=HAL_OK;
 	uint64_t *pd=pdata;
-	HAL_FLASH_Unlock();
+//	HAL_FLASH_Unlock();
 	
 	//写入数据
-	for(uint8_t i=0;i<(nbyte/4) && status==HAL_OK;i++)
+	for(uint8_t i=0;i<(nbyte / 8) && status==HAL_OK;i++)
 	{
 		status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, addr, *pd);		
 		addr += 8;
 		pd++;
 	}		
 	
-	HAL_FLASH_Lock();	
+//	HAL_FLASH_Lock();	
 	return status;
 }
 
@@ -75,6 +78,8 @@ static HAL_StatusTypeDef STMFLASH_Write(void *pdata,uint32_t addr,uint8_t nbyte)
 HAL_StatusTypeDef StoreModbusRegs(void)
 {
 	HAL_StatusTypeDef s_status;
+	
+	HAL_FLASH_Unlock();
 	
 	//擦除flash
 	s_status = STMFLASH_Erase(REG_STORAGE_ADDR);
@@ -88,6 +93,9 @@ HAL_StatusTypeDef StoreModbusRegs(void)
 		if(s_status != HAL_OK)
 			return s_status;
 	}
+	
+	HAL_FLASH_Lock();
+	
 	return s_status;
 }
 
@@ -184,7 +192,7 @@ void PowerOn_ReadModbusReg(void)
 	measure_settings  = *((__IO MEASURE_SETTINGS_T *)MEASURE_SET_SADDR);
 	calib_settings    = *((__IO CALIB_SETTINGS_T *)CAL_SET_SADDR);	
 	filter_settings   = *((__IO FILTER_SETTINGS_T *)FILTER_SET_SADDR);
-	pH_ORP_Param          = *((__IO PH_ORP_PARAM_T *)DO_PARA_SADDR);
+	ph_orp_param          = *((__IO PH_ORP_PARAM_T *)DO_PARA_SADDR);
 //	if(system_status.newStructFlg != 0x2222)   //从未下载过程序的全新探头
 //	{
 //		ResetFlash();

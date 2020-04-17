@@ -37,7 +37,7 @@
 void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-int get_ADC_RST();
+int get_ADC_RST(void);
 uint16_t Get_ADCVal(ADC_TypeDef *ADCx);
 void Open_ADC(ADC_TypeDef *ADCx);
 /* USER CODE END Prototypes */

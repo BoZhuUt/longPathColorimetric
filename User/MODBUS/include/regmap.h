@@ -68,7 +68,7 @@ typedef	struct sysStatus
 	char		hardwareVer[16];			/* 41023-41030  char[16] */
 	char		softwareVer[16];      /* 41031-41038  char[16] */
 	uint16  newStructFlg;					/* 41039 */
-	uint16		reserved[11];				/* 41040-41050  reserved */
+	uint16		reserved[13];				/* 41040-41050  reserved */
 } SYS_STATUS_T;
 
 typedef struct commSettings
@@ -77,7 +77,7 @@ typedef struct commSettings
 	uint16		modbusDatabits;			/* 42002 	 */
 	uint16		modbusParity;				/* 42003 	 */
 	uint32		modbusBaud;					/* 42004-42005 */
-	uint16		reserved[45];				/* 42006-42050  reserved */
+	uint16		reserved[47];				/* 42006-42050  reserved */
 } COMM_SETTINGS_T;
 
 typedef	struct measureSettings
@@ -87,7 +87,7 @@ typedef	struct measureSettings
 	float		smoothingFactor;		  /* 43004-43005 	 float   */
 	uint16		command;				    /* 43006	*/
 	float  pt100DriveCurrent;     /* 43007-43008   float   */
-	uint16		reserved[42];			  /* 43009-43050   reserved */
+	uint16		reserved[44];			  /* 43009-43050   reserved */
 } MEASURE_SETTINGS_T;
 
 typedef	struct calibSettings
@@ -104,12 +104,12 @@ typedef	struct calibSettings
 	float     pHInterceptCeiling; /* 44018-44019  float */
 	float     orpSlopeFloor;      /* 44020-44021  float */
 	float     orpSlopeCeiling;    /* 44022-44023  reserved */
-	uint16		reserved[27];				/* 44024-44050  reserved */
+	uint16		reserved[29];				/* 44024-44050  reserved */
 } CALIB_SETTINGS_T;
 
 typedef	struct filterSettings
 {											/* Register		Type  		 R/W */
-	uint16		reserved[50];				/* 45001-45050   reserved */
+	uint16		reserved[52];				/* 45001-45050   reserved */
 } FILTER_SETTINGS_T;
 
 typedef struct measureValues
@@ -121,7 +121,7 @@ typedef struct measureValues
 	float		sensorValue_mA1;			/* 46009-46010  float */
 	float 	pt100Res;							/* 46011-46012  float*/
 	float   orp_mV;								/* 46013-46014	float  orp, mV */	
-	uint16  reserved[36];         /* 46015-46050  reserved */
+	uint16  reserved[38];         /* 46015-46050  reserved */
 } MEASURE_VALUES_T;
 
 
@@ -166,7 +166,7 @@ typedef	struct pH_ORP_Param
 	uint16    cs347;              /* 48038   16bit integer   r/w */
 	uint16    s347;               /* 48039   16bit integer   r/w */
 	uint16    s347Gain;           /* 48040   16bit integer   r/w */
-	uint16		reserved[10];				/* 48041-48050   reserved */	
+	uint16		reserved[12];				/* 48041-48050   reserved */	
 } PH_ORP_PARAM_T;
 
 #pragma pack()
