@@ -38,7 +38,7 @@ void MX_ADC1_Init(void)
   
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
   /**ADC1 GPIO Configuration  
-  PA4   ------> ADC1_IN9 
+  PA5   ------> ADC1_IN10 
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_4;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
@@ -67,9 +67,9 @@ void MX_ADC1_Init(void)
   /** Configure Regular Channel 
   */
   LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_9);
-  LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_10, LL_ADC_SAMPLINGTIME_6CYCLES_5);
+  LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_10, LL_ADC_SAMPLINGTIME_640CYCLES_5);
   LL_ADC_SetChannelSingleDiff(ADC1, LL_ADC_CHANNEL_10, LL_ADC_SINGLE_ENDED);
-  LL_ADC_Enable(ADC1);//¿ªÆôADC
+
 }
 
 /* USER CODE BEGIN 1 */

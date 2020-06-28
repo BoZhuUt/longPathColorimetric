@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32L431xx,USE_FULL_LL_DRIVER,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,MSI_VALUE=4000000,EXTERNALSAI1_CLOCK_VALUE=2097000,HSI_VALUE=16000000,LSI_VALUE=32000,VDD_VALUE=3300,PREFETCH_ENABLE=0,INSTRUCTION_CACHE_ENABLE=1,DATA_CACHE_ENABLE=1</Define>
+              <Define>STM32L431xx,USE_FULL_LL_DRIVER,USE_HAL_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;      ../Drivers/STM32L4xx_HAL_Driver/Inc;      ../Drivers/CMSIS/Device/ST/STM32L4xx/Include;      ../Drivers/CMSIS/Include;      ..\User\usart;      ..\User\MODBUS\include;      ..\User\MODBUS\port;      ..\User\MODBUS\rtu;      ..\User\timer;      ..\User\LTC2630ISC6;      ..\User\delay;      ..\User\ADA2200;      ..\User\PGA113;      ..\User\DAC5410;      ..\User\APP;      ..\User\measure;      ..\Drivers\STM32L4xx_HAL_Driver\Inc;      ..\User\kf;      ..\User\Flash</IncludePath>
+              <IncludePath>../Inc;       ../Drivers/STM32L4xx_HAL_Driver/Inc;       ../Drivers/CMSIS/Device/ST/STM32L4xx/Include;       ../Drivers/CMSIS/Include;       ..\User\usart;       ..\User\MODBUS\include;       ..\User\MODBUS\port;       ..\User\MODBUS\rtu;       ..\User\timer;       ..\User\LTC2630ISC6;       ..\User\delay;       ..\User\ADA2200;       ..\User\PGA113;       ..\User\DAC5410;       ..\User\APP;       ..\User\measure;       ..\Drivers\STM32L4xx_HAL_Driver\Inc;       ..\User\kf;       ..\User\Flash;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -408,6 +408,11 @@
               <FilePath>../Src/adc.c</FilePath>
             </File>
             <File>
+              <FileName>iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/iwdg.c</FilePath>
+            </File>
+            <File>
               <FileName>tim.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/tim.c</FilePath>
@@ -416,6 +421,11 @@
               <FileName>stm32l4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32l4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_msp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/stm32l4xx_hal_msp.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -443,29 +453,9 @@
               <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_usart.c</FilePath>
             </File>
             <File>
-              <FileName>stm32l4xx_hal_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hal_flash_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ex.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32l4xx_hal_crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_crc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hal_cortex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c</FilePath>
             </File>
             <File>
               <FileName>stm32l4xx_ll_utils.c</FileName>
@@ -493,9 +483,94 @@
               <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_dma.c</FilePath>
             </File>
             <File>
-              <FileName>stm32l4xx_ll_pwr.c</FileName>
+              <FileName>stm32l4xx_hal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_pwr.c</FilePath>
+              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_i2c_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_rcc_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_flash_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_flash_ramfunc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_dma_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_pwr_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_cortex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_iwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32l4xx_ll_tim.c</FileName>

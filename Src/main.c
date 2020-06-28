@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "iwdg.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -93,14 +94,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
-
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /* System interrupt init*/
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -117,6 +111,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_TIM7_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 	PowerOn_ReadModbusReg();
   LTC2630ISC6_init();
@@ -163,6 +158,8 @@ int main(void)
 			ph_orp_param.t365=getAD_result()-ph_orp_param.dark;
 			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
 			MEASURE_FLAG=0;
+			turn_off_led();
+			HAL_IWDG_Refresh(&hiwdg);
 			LL_USART_Enable(USART1);
 		}		
 	//	ITM_SendChar(0x55);     //没接JTDO 无法使用ITM调试
@@ -187,6 +184,13 @@ void SystemClock_Config(void)
 
    /* Wait till HSE is ready */
   while(LL_RCC_HSE_IsReady() != 1)
+  {
+    
+  }
+  LL_RCC_LSI_Enable();
+
+   /* Wait till LSI is ready */
+  while(LL_RCC_LSI_IsReady() != 1)
   {
     
   }
@@ -218,10 +222,13 @@ void SystemClock_Config(void)
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
-
-  LL_Init1msTick(80000000);
-
   LL_SetSystemCoreClock(80000000);
+
+   /* Update the time base */
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  {
+    Error_Handler();  
+  };
   LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_PLLSAI1);
 }
 
