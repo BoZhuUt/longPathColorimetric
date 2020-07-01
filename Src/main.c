@@ -72,6 +72,7 @@ void SystemClock_Config(void);
 void USART_SEND_DATA(uint8_t DATA);
 void UART1_SEND_CHAR(char *str);
 int fputc(int ch,FILE *f);
+void measure_d8(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -87,8 +88,6 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	SCB->VTOR = FLASH_BASE | 0x05000;				//ÉèÖÃAPPÆô¶¯µØÖ·
-	int adc_result,i,j;
-	 float adc_ave=0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -122,13 +121,12 @@ int main(void)
 
 	/*Enable Modbus protocol stack*/
 	eMBEnable();
-	measure_values.sensorValue = 20;
-	measure_values.sensorValue_mA = 0;
 	//RS485_SEND_EN();
-	configPGA113(ch0,1);
-	//4~20mA
-		write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,3000);
-		//AD5410_IOUT(8,16);
+	if(system_status.newStructFlg!=0X55)
+	{
+		ParaInit();
+	}
+ //  StoreModbusRegs();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -140,11 +138,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  eMBPoll();
-		if(ph_orp_param.startNum==1)
-		{
-			ph_orp_param.startNum=0;
-			StoreModbusRegs();
-		}
 		if(MEASURE_FLAG>3)
 		{
 			LL_USART_Disable(USART1);
@@ -157,8 +150,16 @@ int main(void)
 			Open_ADC(ADC1);
 			ph_orp_param.t365=getAD_result()-ph_orp_param.dark;
 			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+			measure_d8();
 			MEASURE_FLAG=0;
 			turn_off_led();
+		if(ph_orp_param.startNum==1)
+		{
+			ph_orp_param.startNum=0;
+			__disable_irq();
+    	StoreModbusRegs();
+	    __enable_irq();
+		}
 			HAL_IWDG_Refresh(&hiwdg);
 			LL_USART_Enable(USART1);
 		}		
@@ -262,12 +263,27 @@ void UART1_SEND_CHAR(char *str)
   }
 	}
 
-	void measure_tim7_IRQ()
+void measure_tim7_IRQ()
 {
 	 MEASURE_FLAG++;
 	if(MEASURE_FLAG==10)
 	{MEASURE_FLAG=0;}
 	 LL_TIM_ClearFlag_UPDATE(TIM7);
+}
+
+void measure_d8(void)
+{
+	configPGA113(ch0,ph_orp_param.t410Gain);
+	Open_ADC(ADC1);
+	delay_ms(2);
+	ph_orp_param.t410dark=getAD_result();
+	turn_on_led_d8();
+	write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,ph_orp_param.ct410);
+	delay_ms(50);
+	Open_ADC(ADC1);
+	ph_orp_param.t410=getAD_result()-ph_orp_param.t410dark;
+	write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+	turn_off_led();
 }
 /* USER CODE END 4 */
 

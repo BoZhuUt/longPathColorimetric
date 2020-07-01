@@ -37,7 +37,7 @@
 //系统状态寄存器起始地址
 #define SYSREG_SADDR	(SYSREG_FLAG * 1000 + 1)
 //系统状态寄存器个数
-#define SYSREG_NREGS	(sizeof(SYS_STATUS_T)>>1)
+#define SYSREG_NREGS	sizeof(SYS_STATUS_T)//(sizeof(SYS_STATUS_T)>>1)
 
 #define COMSREG_REGNUM	4
 //通信设置寄存器地址标志

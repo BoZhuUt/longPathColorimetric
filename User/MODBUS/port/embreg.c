@@ -160,32 +160,32 @@ eMBErrorCode eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usN
 				eStatus=MB_ENOREG;
 			}
 			break;
-//		
-//		//校准设置寄存器
-//		case CALSREG_FLAG:
-//			//判断地址和寄存器数目合法性
-//			if(usAddress + usNRegs <= CALSREG_SADDR + CALSREG_NREGS)
-//			{
-//				data_pointer= (void *)&calib_settings;
-//			}
-//			else
-//			{
-//				eStatus=MB_ENOREG;
-//			}
-//			break;
+		
+		//校准设置寄存器
+		case CALSREG_FLAG:
+			//判断地址和寄存器数目合法性
+			if(usAddress + usNRegs <= CALSREG_SADDR + CALSREG_NREGS)
+			{
+				data_pointer= (void *)&calib_settings;
+			}
+			else
+			{
+				eStatus=MB_ENOREG;
+			}
+			break;
 //			
 //		//滤波器参数设置寄存器
-//		case FSREG_FLAG:
-//			//判断地址和寄存器数目合法性
-//			if(usAddress + usNRegs <= FSREG_SADDR + FSREG_NREGS)
-//			{
-//				data_pointer= (void *)&filter_settings;
-//			}
-//			else
-//			{
-//				eStatus=MB_ENOREG;
-//			}
-//			break;
+		case FSREG_FLAG:
+			//判断地址和寄存器数目合法性
+			if(usAddress + usNRegs <= FSREG_SADDR + FSREG_NREGS)
+			{
+				data_pointer= (void *)&filter_settings;
+			}
+			else
+			{
+				eStatus=MB_ENOREG;
+			}
+			break;
 		//pH\ORP专有寄存器
 		case PHREG_FLAG:
 			if(usAddress+usNRegs <= PHREG_SADDR + PHREG_NREGS)
@@ -198,17 +198,17 @@ eMBErrorCode eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usN
 			}
 			break;
 		//系统状态寄存器
-//		case SYSREG_FLAG:
-//			//判断地址和寄存器数目合法性
-//			if(usAddress + usNRegs <= SYSREG_SADDR + SYSREG_NREGS)
-//			{
-//				data_pointer= (void *)&system_status;
-//			}
-//			else
-//			{
-//				eStatus=MB_ENOREG;
-//			}
-//			break;
+		case SYSREG_FLAG:
+			//判断地址和寄存器数目合法性
+			if(usAddress + usNRegs <= SYSREG_SADDR + SYSREG_NREGS)
+			{
+				data_pointer= (void *)&system_status;
+			}
+			else
+			{
+				eStatus=MB_ENOREG;
+			}
+			break;
 		//测量数据寄存器
 		case MVREG_FLAG:
 			//判断地址和寄存器数目合法性
@@ -264,14 +264,14 @@ eMBErrorCode eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usN
 //				{
 //					MBAddr_w=1;
 //				}
-				if(usAddress==46001)  //modbus address
-				{
-					flag=1;
-				}
-				if(usAddress==46003)  //modbus address
-				{
-					flag1=1;
-				}
+//				if(usAddress==46001)  //modbus address
+//				{
+//					flag=1;
+//				}
+//				if(usAddress==46003)  //modbus address
+//				{
+//					flag1=1;
+//				}
 				break;		
 
 			default:
