@@ -149,16 +149,16 @@ int main(void)
 			delay_ms(50);
 			Open_ADC(ADC1);
 			ph_orp_param.t365=getAD_result()-ph_orp_param.dark;
-			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
-			measure_d8();
+			//write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+			//measure_d8();
 			MEASURE_FLAG=0;
 			turn_off_led();
 		if(ph_orp_param.startNum==1)
 		{
 			ph_orp_param.startNum=0;
 			__disable_irq();
-    	StoreModbusRegs();
-	    __enable_irq();
+    	    StoreModbusRegs();
+	        __enable_irq();
 		}
 			HAL_IWDG_Refresh(&hiwdg);
 			LL_USART_Enable(USART1);
