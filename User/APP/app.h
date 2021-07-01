@@ -7,7 +7,7 @@
 #include "math.h"
 
 #define HW_VERSION "0.2"  
-#define SW_VERSION "1.0.3"
+#define SW_VERSION "1.0.11"
 
 #define MODBUS_PARITY_NONE 	0
 #define MODBUS_PARITY_ODD 	1

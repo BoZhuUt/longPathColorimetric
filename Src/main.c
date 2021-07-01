@@ -78,6 +78,7 @@ void measure_d8(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 char adc_arry[10];
+void checkModbusCommand(void);
 /* USER CODE END 0 */
 
 /**
@@ -143,12 +144,12 @@ int main(void)
 			LL_USART_Disable(USART1);
 			configPGA113(ch0,ph_orp_param.t365Gain);
 			Open_ADC(ADC1);
-			ph_orp_param.dark=getAD_result();
+			ph_orp_param.dark=getAD_result()*2;
 			turn_on_led_d10();
 			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,ph_orp_param.ct365);
 			delay_ms(50);
 			Open_ADC(ADC1);
-			ph_orp_param.t365=getAD_result()-ph_orp_param.dark;
+			ph_orp_param.t365=getAD_result()*2-ph_orp_param.dark;
 			//write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
 			//measure_d8();
 			MEASURE_FLAG=0;
@@ -284,6 +285,11 @@ void measure_d8(void)
 	ph_orp_param.t410=getAD_result()-ph_orp_param.t410dark;
 	write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
 	turn_off_led();
+}
+
+void checkModbusCommand(void)
+{
+	
 }
 /* USER CODE END 4 */
 
