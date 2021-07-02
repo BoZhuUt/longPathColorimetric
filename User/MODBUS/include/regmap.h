@@ -139,7 +139,8 @@ typedef	struct pH_ORP_Param
 	uint16    t410Gain;           /* 48007   16bit integer   r/w */
 	uint16    t410dark;           /* 48008   16bit integer   r/w */
 	uint16    t410;               /* 48009   16bit integer   r/w */
-	uint16		reserved[43];				/* 480010-48052   reserved */	
+	uint16    t365Di;             /* 48010   16bit integer   r/w */
+	uint16	  reserved[42];				/* 480010-48052   reserved */	
 } PH_ORP_PARAM_T;
 
 #pragma pack()
