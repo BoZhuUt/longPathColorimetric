@@ -31,12 +31,12 @@ typedef uint32_t uint32;
 typedef enum
 {
     IDLE=0,              
-    CAL_ACID_SUCCESS,          /* 1, ËáĞÔÈÜÒºĞ£×¼³É¹¦ */
-	  CAL_ALKALI_ORP_SUCCESS,    /* 2, pH:¼îĞÔÈÜÒºĞ£×¼³É¹¦£»ORP:orpĞ£×¼³É¹¦ */
-	  STD_VALUE_ERR,             /* 3, Î´ÊäÈë±êÑùÖµ»òÕßÊäÈëµÄ±êÑùÖµ²»ÔÚĞ£×¼·¶Î§ */
-		RESULT_ERR,				         /* 4, Ğ£×¼ºóµÄ²ÎÊı²»ºÏÀí */
-	  STD_TYPE_ERR,              /* 5, ±êÒºÖµÊı¾İÀàĞÍ´íÎó */
-	  CAL_PH7_SUCCESS            /* 6, ÈıµãĞ£×¼£¬Ô­µã£¬PH7Ğ£×¼³É¹¦ */
+    CAL_ACID_SUCCESS,          /* 1, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒºĞ£×¼ï¿½É¹ï¿½ */
+	  CAL_ALKALI_ORP_SUCCESS,    /* 2, pH:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒºĞ£×¼ï¿½É¹ï¿½ï¿½ï¿½ORP:orpĞ£×¼ï¿½É¹ï¿½ */
+	  STD_VALUE_ERR,             /* 3, Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ğ£×¼ï¿½ï¿½Î§ */
+		RESULT_ERR,				         /* 4, Ğ£×¼ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	  STD_TYPE_ERR,              /* 5, ï¿½ï¿½ÒºÖµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ï¿½ï¿½ */
+	  CAL_PH7_SUCCESS            /* 6, ï¿½ï¿½ï¿½ï¿½Ğ£×¼ï¿½ï¿½Ô­ï¿½ã£¬PH7Ğ£×¼ï¿½É¹ï¿½ */
 } CalibState;
 
 //2 byte aligned
@@ -60,7 +60,7 @@ typedef	struct sysStatus
 {											/* Register		Type  		 R/W */
 	uint16		runStatus;					/* 41001 */
 	uint16   	commStatus;					/* 41002 */
-	uint16 		calibStatus;				/* 41003 	 0£¬¿ÕÏĞ£»1£¬Ğ´pHµÄAµã±êÒºÖµ³É¹¦£»2£¬Ğ£×¼³É¹¦£»3£¬±êÒºÖµ´óĞ¡²»ºÏÀí£»4£¬Ğ£×¼½á¹û²»ºÏÀí£»5£¬±êÒºÖµ·Ç·¨¸¡µãÊı */
+	uint16 		calibStatus;				/* 41003 	 0ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½1ï¿½ï¿½Ğ´pHï¿½ï¿½Aï¿½ï¿½ï¿½ÒºÖµï¿½É¹ï¿½ï¿½ï¿½2ï¿½ï¿½Ğ£×¼ï¿½É¹ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½ÒºÖµï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½Ğ£×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ÒºÖµï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	uint16		configStatus;				/* 41004 */
 	uint32    productNum;					/* 41005-41006	uint32 */
 	char		deviceName[16];       /* 41007-41014	char[16] */
@@ -140,7 +140,11 @@ typedef	struct pH_ORP_Param
 	uint16    t410dark;           /* 48008   16bit integer   r/w */
 	uint16    t410;               /* 48009   16bit integer   r/w */
 	uint16    t365Di;             /* 48010   16bit integer   r/w */
-	uint16	  reserved[42];				/* 480010-48052   reserved */	
+	uint16    usAutoGain;         //è‡ªåŠ¨é‡ç¨‹å…³é—­/å¼€å¯
+	uint16    usAutoSAT;          //è‡ªåŠ¨åˆ‡æ¢é‡ç¨‹é¥±å’Œå€¼
+	uint16    usGain1T365;        //å€æ•°1çš„T365
+	uint16    usGain2T365;        //å€æ•°2çš„T365
+	uint16	  reserved[42 - 4];				/* 480010-48052   reserved */	
 } PH_ORP_PARAM_T;
 
 #pragma pack()

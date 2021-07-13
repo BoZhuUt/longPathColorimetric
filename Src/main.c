@@ -42,13 +42,13 @@ MEASURE_VALUES_T measure_values;
 SYS_STATUS_T system_status;
 MEASURE_SETTINGS_T measure_settings;
 PH_ORP_PARAM_T ph_orp_param;
-COMM_SETTINGS_T  comm_settings;
+COMM_SETTINGS_T comm_settings;
 //PH_ORP_PARAM_T  pH_ORP_Param;
 CALIB_SETTINGS_T calib_settings;
 FILTER_SETTINGS_T filter_settings;
-uint8_t flag = 0,flag1 = 0;
+uint8_t flag = 0, flag1 = 0;
 uint16_t adc_rst_arry_test[10];
-uint8_t MEASURE_FLAG=0;
+uint8_t MEASURE_FLAG = 0;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -71,7 +71,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void USART_SEND_DATA(uint8_t DATA);
 void UART1_SEND_CHAR(char *str);
-int fputc(int ch,FILE *f);
+int fputc(int ch, FILE *f);
 void measure_d8(void);
 /* USER CODE END PFP */
 
@@ -79,6 +79,7 @@ void measure_d8(void);
 /* USER CODE BEGIN 0 */
 char adc_arry[10];
 void checkModbusCommand(void);
+static const uint16_t usGain[] = {1, 2, 5, 10, 20, 50, 100, 200};
 /* USER CODE END 0 */
 
 /**
@@ -88,7 +89,7 @@ void checkModbusCommand(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	SCB->VTOR = FLASH_BASE | 0x05000;				//…Ë÷√APP∆Ù∂Øµÿ÷∑
+  SCB->VTOR = FLASH_BASE | 0x05000; //ÔøΩÔøΩÔøΩÔøΩAPPÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ÷∑
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -104,7 +105,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-	LL_RCC_GetSystemClocksFreq(&RCC_Clocks);
+  LL_RCC_GetSystemClocksFreq(&RCC_Clocks);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -113,58 +114,109 @@ int main(void)
   MX_TIM7_Init();
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
-	PowerOn_ReadModbusReg();
+  PowerOn_ReadModbusReg();
   LTC2630ISC6_init();
-	LL_TIM_TIM7_ENABLE();
+  LL_TIM_TIM7_ENABLE();
 
   //PowerOn_ReadModbusReg();
-  eMBInit(MB_RTU,45,0,9600,MB_PAR_EVEN);
+  eMBInit(MB_RTU, 45, 0, 9600, MB_PAR_EVEN);
 
-	/*Enable Modbus protocol stack*/
-	eMBEnable();
-	//RS485_SEND_EN();
-	if(system_status.newStructFlg!=0X55)
-	{
-		ParaInit();
-	}
- //  StoreModbusRegs();
+  /*Enable Modbus protocol stack*/
+  eMBEnable();
+  //RS485_SEND_EN();
+  if (system_status.newStructFlg != 0X55)
+  {
+    ParaInit();
+  }
+  //  StoreModbusRegs();
+  uint16_t usDark[2] = {0};
+  uint16_t usT365[2] = {0};
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  eMBPoll();
-		if(MEASURE_FLAG>3)
-		{
-			LL_USART_Disable(USART1);
-			configPGA113(ch0,ph_orp_param.t365Gain);
-			Open_ADC(ADC1);
-			ph_orp_param.dark=getAD_result()*2;
-			turn_on_led_d10();
-			write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,ph_orp_param.ct365);
-			delay_ms(50);
-			Open_ADC(ADC1);
-			ph_orp_param.t365=getAD_result()*2-ph_orp_param.dark;
-			//write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
-			//measure_d8();
-			MEASURE_FLAG=0;
-			turn_off_led();
-		if(ph_orp_param.startNum==1)
-		{
-			ph_orp_param.startNum=0;
-			__disable_irq();
-    	    StoreModbusRegs();
-	        __enable_irq();
-		}
-			HAL_IWDG_Refresh(&hiwdg);
-			LL_USART_Enable(USART1);
-		}		
-	//	ITM_SendChar(0x55);     //√ªΩ”JTDO Œﬁ∑® π”√ITMµ˜ ‘
+    eMBPoll();
+    if (MEASURE_FLAG > 3)
+    {
+      LL_USART_Disable(USART1);
+      configPGA113(ch0, ph_orp_param.t365Gain);
+      Open_ADC(ADC1);
+      usDark[0] = getAD_result() * 2;
+      turn_on_led_d10();
+      write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
+      delay_ms(50);
+      Open_ADC(ADC1);
+      usT365[0] = getAD_result() * 2 - usDark[0];
+      //write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+      //measure_d8();
+      MEASURE_FLAG = 0;
+      turn_off_led();
+/***********************************************************************/
+      if (ph_orp_param.usAutoGain == 0)
+      {
+        ph_orp_param.dark = usDark[0];
+        ph_orp_param.t365 = usT365[0];
+        ph_orp_param.usGain1T365 = 0;
+        ph_orp_param.usGain2T365 = 0;
+      }
+      else //ÂºÄÂêØËá™Âä®ÈáèÁ®ã
+      {
+        uint16_t usGainindex2 = ph_orp_param.t365Gain + 1;
+
+        if(usGainindex2 < (sizeof(usGain) / sizeof(uint16_t)))
+        {
+          configPGA113(ch0, usGainindex2); //Â¢ûÂä†‰∏Ä‰∏™Ê°£‰Ωç
+          Open_ADC(ADC1);
+          usDark[1] = getAD_result() * 2;
+          turn_on_led_d10();
+          write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
+          delay_ms(50);
+          Open_ADC(ADC1);
+          usT365[1] = getAD_result() * 2 - usDark[1];
+          //write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+          //measure_d8();
+          MEASURE_FLAG = 0;
+          turn_off_led();
+
+          if (usT365[1] > ph_orp_param.usAutoSAT) //Ë∂ÖËøáËÆæÁΩÆÁöÑÈ•±ÂíåÂÄº,Â∞±Áî®‰ΩéÈáèÁ®ãXÂÄçÊï∞(È´òÂ¢ûÁõä/‰ΩéÂ¢ûÁõä)
+          {
+            ph_orp_param.dark = usDark[0] * usGain[usGainindex2] / usGain[ph_orp_param.t365Gain];
+            ph_orp_param.t365 = usT365[0] * usGain[usGainindex2] / usGain[ph_orp_param.t365Gain];
+          }
+          else //Ê≤°Ë∂ÖËøáËÆæÁΩÆÈ•±ÂíåÂÄºÔºåÂ∞±Áî®È´òÂ¢ûÁõäÊµãÈáèÂÄº
+          {
+            ph_orp_param.dark = usDark[1];
+            ph_orp_param.t365 = usT365[1];
+          }
+          ph_orp_param.usGain1T365 = usT365[0];
+          ph_orp_param.usGain2T365 = usT365[1];
+        }
+        else
+        {
+          ph_orp_param.dark = usDark[0];
+          ph_orp_param.t365 = usT365[0];
+          ph_orp_param.usGain1T365 = usT365[0];
+          ph_orp_param.usGain2T365 = usT365[0];
+        }
+      }
+/****************************************************************************/
+      if (ph_orp_param.startNum == 1)
+      {
+        ph_orp_param.startNum = 0;
+        __disable_irq();
+        StoreModbusRegs();
+        __enable_irq();
+      }
+      HAL_IWDG_Refresh(&hiwdg);
+      LL_USART_Enable(USART1);
+    }
+    //	ITM_SendChar(0x55);     //√ªÔøΩÔøΩJTDO ÔøΩﬁ∑ÔøΩ πÔøΩÔøΩITMÔøΩÔøΩÔøΩÔøΩ
   }
   /* USER CODE END 3 */
 }
@@ -177,119 +229,114 @@ void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
 
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_4)
+  if (LL_FLASH_GetLatency() != LL_FLASH_LATENCY_4)
   {
-  Error_Handler();  
+    Error_Handler();
   }
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
   LL_RCC_HSE_Enable();
 
-   /* Wait till HSE is ready */
-  while(LL_RCC_HSE_IsReady() != 1)
+  /* Wait till HSE is ready */
+  while (LL_RCC_HSE_IsReady() != 1)
   {
-    
   }
   LL_RCC_LSI_Enable();
 
-   /* Wait till LSI is ready */
-  while(LL_RCC_LSI_IsReady() != 1)
+  /* Wait till LSI is ready */
+  while (LL_RCC_LSI_IsReady() != 1)
   {
-    
   }
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_1, 20, LL_RCC_PLLR_DIV_2);
   LL_RCC_PLL_EnableDomain_SYS();
   LL_RCC_PLL_Enable();
 
-   /* Wait till PLL is ready */
-  while(LL_RCC_PLL_IsReady() != 1)
+  /* Wait till PLL is ready */
+  while (LL_RCC_PLL_IsReady() != 1)
   {
-    
   }
   LL_RCC_PLLSAI1_ConfigDomain_ADC(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLSAI1R_DIV_2);
   LL_RCC_PLLSAI1_EnableDomain_ADC();
   LL_RCC_PLLSAI1_Enable();
 
-   /* Wait till PLLSAI1 is ready */
-  while(LL_RCC_PLLSAI1_IsReady() != 1)
+  /* Wait till PLLSAI1 is ready */
+  while (LL_RCC_PLLSAI1_IsReady() != 1)
   {
-    
   }
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
-   /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+  /* Wait till System clock is ready */
+  while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  
   }
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
   LL_SetSystemCoreClock(80000000);
 
-   /* Update the time base */
-  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  /* Update the time base */
+  if (HAL_InitTick(TICK_INT_PRIORITY) != HAL_OK)
   {
-    Error_Handler();  
+    Error_Handler();
   };
   LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_PLLSAI1);
 }
 
 /* USER CODE BEGIN 4 */
 
-int fputc(int ch, FILE *f) 
+int fputc(int ch, FILE *f)
 {
-    return(ch);
+  return (ch);
 }
 void USART_SEND_DATA(uint8_t DATA)
 {
-	RS485_SEND_EN();
-	LL_USART_TransmitData8(USART1,DATA);
-	while(LL_USART_IsActiveFlag_TC(USART1) == RESET)
-	{
-		;
-	}
-	
+  RS485_SEND_EN();
+  LL_USART_TransmitData8(USART1, DATA);
+  while (LL_USART_IsActiveFlag_TC(USART1) == RESET)
+  {
+    ;
+  }
 }
 void UART1_SEND_CHAR(char *str)
 {
-	while(*str)
-	{ 
-		LL_USART_TransmitData8(USART1,*str);
-		while(LL_USART_IsActiveFlag_TC(USART1) == RESET)
-		{
-			;
-		}
-		//≥…÷ª∑¢ÀÕ◊Ó∫Û“ª∏ˆ◊÷∑˚£®∏≤∏«£©
-		str++;
+  while (*str)
+  {
+    LL_USART_TransmitData8(USART1, *str);
+    while (LL_USART_IsActiveFlag_TC(USART1) == RESET)
+    {
+      ;
+    }
+    //ÔøΩÔøΩ÷ªÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ“ªÔøΩÔøΩÔøΩ÷∑ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ«£ÔøΩ
+    str++;
   }
-	}
+}
 
 void measure_tim7_IRQ()
 {
-	 MEASURE_FLAG++;
-	if(MEASURE_FLAG==10)
-	{MEASURE_FLAG=0;}
-	 LL_TIM_ClearFlag_UPDATE(TIM7);
+  MEASURE_FLAG++;
+  if (MEASURE_FLAG == 10)
+  {
+    MEASURE_FLAG = 0;
+  }
+  LL_TIM_ClearFlag_UPDATE(TIM7);
 }
 
 void measure_d8(void)
 {
-	configPGA113(ch0,ph_orp_param.t410Gain);
-	Open_ADC(ADC1);
-	delay_ms(2);
-	ph_orp_param.t410dark=getAD_result();
-	turn_on_led_d8();
-	write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,ph_orp_param.ct410);
-	delay_ms(50);
-	Open_ADC(ADC1);
-	ph_orp_param.t410=getAD_result()-ph_orp_param.t410dark;
-	write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
-	turn_off_led();
+  configPGA113(ch0, ph_orp_param.t410Gain);
+  Open_ADC(ADC1);
+  delay_ms(2);
+  ph_orp_param.t410dark = getAD_result();
+  turn_on_led_d8();
+  write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct410);
+  delay_ms(50);
+  Open_ADC(ADC1);
+  ph_orp_param.t410 = getAD_result() - ph_orp_param.t410dark;
+  write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, 0);
+  turn_off_led();
 }
 
 void checkModbusCommand(void)
 {
-	
 }
 /* USER CODE END 4 */
 
@@ -305,7 +352,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -314,7 +361,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
