@@ -36,7 +36,7 @@ void ParaInit(void)
 	ph_orp_param.ct410=1;
 	ph_orp_param.t410Gain=0;
 	ph_orp_param.usAutoGain = 1;   //默认自动量程
-	ph_orp_param.usAutoSAT = 2500; //自动量程切换饱和值
+	ph_orp_param.usAutoSAT = 300; //自动量程切换饱和值
 	memset(ph_orp_param.reserved,0,sizeof(ph_orp_param.reserved));
 	
 	__disable_irq();

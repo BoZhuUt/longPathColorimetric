@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -43,7 +43,7 @@ SYS_STATUS_T system_status;
 MEASURE_SETTINGS_T measure_settings;
 PH_ORP_PARAM_T ph_orp_param;
 COMM_SETTINGS_T comm_settings;
-//PH_ORP_PARAM_T  pH_ORP_Param;
+// PH_ORP_PARAM_T  pH_ORP_Param;
 CALIB_SETTINGS_T calib_settings;
 FILTER_SETTINGS_T filter_settings;
 uint8_t flag = 0, flag1 = 0;
@@ -83,9 +83,9 @@ static const uint16_t usGain[] = {1, 2, 5, 10, 20, 50, 100, 200};
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -118,12 +118,12 @@ int main(void)
   LTC2630ISC6_init();
   LL_TIM_TIM7_ENABLE();
 
-  //PowerOn_ReadModbusReg();
+  // PowerOn_ReadModbusReg();
   eMBInit(MB_RTU, 45, 0, 9600, MB_PAR_EVEN);
 
   /*Enable Modbus protocol stack*/
   eMBEnable();
-  //RS485_SEND_EN();
+  // RS485_SEND_EN();
   if (system_status.newStructFlg != 0X55)
   {
     ParaInit();
@@ -147,17 +147,18 @@ int main(void)
       LL_USART_Disable(USART1);
       configPGA113(ch0, ph_orp_param.t365Gain);
       Open_ADC(ADC1);
-      usDark[0] = getAD_result() * 2;
+      usDark[0] = getAD_result();
       turn_on_led_d10();
       write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
       delay_ms(50);
       Open_ADC(ADC1);
-      usT365[0] = getAD_result() * 2 - usDark[0];
-      //write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
-      //measure_d8();
+      // usT365[0] = getAD_result() * 2 - usDark[0];
+      usT365[0] = getAD_result();
+      // write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+      // measure_d8();
       MEASURE_FLAG = 0;
       turn_off_led();
-/***********************************************************************/
+      /***********************************************************************/
       if (ph_orp_param.usAutoGain == 0)
       {
         ph_orp_param.dark = usDark[0];
@@ -169,22 +170,22 @@ int main(void)
       {
         uint16_t usGainindex2 = ph_orp_param.t365Gain + 1;
 
-        if(usGainindex2 < (sizeof(usGain) / sizeof(uint16_t)))
-        {
-          configPGA113(ch0, usGainindex2); //增加一个档位
-          Open_ADC(ADC1);
-          usDark[1] = getAD_result() * 2;
-          turn_on_led_d10();
-          write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
-          delay_ms(50);
-          Open_ADC(ADC1);
-          usT365[1] = getAD_result() * 2 - usDark[1];
-          //write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
-          //measure_d8();
-          MEASURE_FLAG = 0;
-          turn_off_led();
+        configPGA113(ch0, usGainindex2); //增加一个档位
+        Open_ADC(ADC1);
+        usDark[1] = getAD_result();
+        turn_on_led_d10();
+        write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
+        delay_ms(50);
+        Open_ADC(ADC1);
+        usT365[1] = getAD_result() - usDark[1];
+        // write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
+        // measure_d8();
+        MEASURE_FLAG = 0;
+        turn_off_led();
 
-          if (usT365[1] > ph_orp_param.usAutoSAT) //超过设置的饱和值,就用低量程X倍数(高增益/低增益)
+        if (usGainindex2 < (sizeof(usGain) / sizeof(uint16_t)))
+        {
+          if (usT365[0] > ph_orp_param.usAutoSAT) //超过设置的饱和值,就用低量程X倍数(高增益/低增益)
           {
             ph_orp_param.dark = usDark[0] * usGain[usGainindex2] / usGain[ph_orp_param.t365Gain];
             ph_orp_param.t365 = usT365[0] * usGain[usGainindex2] / usGain[ph_orp_param.t365Gain];
@@ -194,6 +195,7 @@ int main(void)
             ph_orp_param.dark = usDark[1];
             ph_orp_param.t365 = usT365[1];
           }
+
           ph_orp_param.usGain1T365 = usT365[0];
           ph_orp_param.usGain2T365 = usT365[1];
         }
@@ -205,7 +207,7 @@ int main(void)
           ph_orp_param.usGain2T365 = usT365[0];
         }
       }
-/****************************************************************************/
+      /****************************************************************************/
       if (ph_orp_param.startNum == 1)
       {
         ph_orp_param.startNum = 0;
@@ -222,9 +224,9 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
@@ -341,9 +343,9 @@ void checkModbusCommand(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -354,12 +356,12 @@ void Error_Handler(void)
 
 #ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
