@@ -62,7 +62,7 @@ void MX_ADC1_Init(void)
   LL_ADC_DisableIT_EOS(ADC1);
   LL_ADC_DisableDeepPowerDown(ADC1);
   LL_ADC_EnableInternalRegulator(ADC1);
-  ADC_CommonInitStruct.CommonClock = LL_ADC_CLOCK_ASYNC_DIV1;
+  ADC_CommonInitStruct.CommonClock = LL_ADC_CLOCK_ASYNC_DIV64;
   LL_ADC_CommonInit(__LL_ADC_COMMON_INSTANCE(ADC1), &ADC_CommonInitStruct);
   /** Configure Regular Channel 
   */

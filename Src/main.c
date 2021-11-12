@@ -80,6 +80,9 @@ void measure_d8(void);
 char adc_arry[10];
 void checkModbusCommand(void);
 static const uint16_t usGain[] = {1, 2, 5, 10, 20, 50, 100, 200};
+
+#define GAIN (1)
+
 /* USER CODE END 0 */
 
 /**
@@ -147,13 +150,13 @@ int main(void)
       LL_USART_Disable(USART1);
       configPGA113(ch0, ph_orp_param.t365Gain);
       Open_ADC(ADC1);
-      usDark[0] = getAD_result();
+      usDark[0] = getAD_result() * GAIN;
       turn_on_led_d10();
       write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
       delay_ms(50);
       Open_ADC(ADC1);
-      // usT365[0] = getAD_result() * 2 - usDark[0];
-      usT365[0] = getAD_result();
+      usT365[0] = getAD_result() * GAIN - usDark[0];
+//      usT365[0] = getAD_result();
       // write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
       // measure_d8();
       MEASURE_FLAG = 0;
@@ -161,8 +164,8 @@ int main(void)
       /***********************************************************************/
       if (ph_orp_param.usAutoGain == 0)
       {
-        ph_orp_param.dark = usDark[0];
-        ph_orp_param.t365 = usT365[0];
+        ph_orp_param.dark = usDark[0] * 2;  //此处PGA113的ref没有接地使用，是的信号可变为6000
+        ph_orp_param.t365 = usT365[0] * 2;
         ph_orp_param.usGain1T365 = 0;
         ph_orp_param.usGain2T365 = 0;
       }
@@ -172,12 +175,12 @@ int main(void)
 
         configPGA113(ch0, usGainindex2); //增加一个档位
         Open_ADC(ADC1);
-        usDark[1] = getAD_result();
+        usDark[1] = getAD_result() * GAIN;
         turn_on_led_d10();
         write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE, ph_orp_param.ct365);
         delay_ms(50);
         Open_ADC(ADC1);
-        usT365[1] = getAD_result() - usDark[1];
+        usT365[1] = getAD_result() * GAIN - usDark[1];
         // write_to_LTC2630ISC6(LTC2630ISC6_WRITE_TO_AND_UPDATE,0);
         // measure_d8();
         MEASURE_FLAG = 0;
